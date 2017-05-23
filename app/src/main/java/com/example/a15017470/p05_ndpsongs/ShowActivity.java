@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import static android.R.attr.data;
 
 public class ShowActivity extends AppCompatActivity {
-    SongsArrayAdapter adapter;
+
+    SongsArrayAdapter aa;
     Button btn5stars;
     ListView lv;
-    String moduleCode;
     ArrayList<Song> notes;
     int requestCode = 1;
 
@@ -38,7 +38,7 @@ public class ShowActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent i = new Intent(ShowActivity.this, ThirdActivity.class);
+                Intent i = new Intent(ShowActivity.this, EditActivity.class);
                 i.putExtra("song", (Serializable) ShowActivity.this.notes.get(position));
                 ShowActivity.this.startActivityForResult(i, ShowActivity.this.requestCode);
             }
@@ -50,7 +50,7 @@ public class ShowActivity extends AppCompatActivity {
                 DBHelper dbh = new DBHelper(ShowActivity.this);
                 ShowActivity.this.notes.clear();
                 ShowActivity.this.notes.addAll(dbh.getAllNotesbyStars(5));
-                ShowActivity.this.adapter.notifyDataSetChanged();
+                ShowActivity.this.aa.notifyDataSetChanged();
             }
         });
 
@@ -60,13 +60,12 @@ public class ShowActivity extends AppCompatActivity {
                 this.notes.clear();
                 this.notes.addAll(dbh.getAllNotes());
                 dbh.close();
-                this.adapter.notifyDataSetChanged();
+                this.aa.notifyDataSetChanged();
             }
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
 
-    }
 
 
