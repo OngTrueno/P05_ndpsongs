@@ -29,7 +29,7 @@ public class ShowActivity extends AppCompatActivity {
 
         setTitle(getTitle().toString());
 
-        lv=(ListView)findViewById(R.id.lv);
+        lv = (ListView) findViewById(R.id.lv);
 
         DBHelper dbh = new DBHelper(this);
         this.notes = dbh.getAllNotes();
@@ -53,18 +53,20 @@ public class ShowActivity extends AppCompatActivity {
                 ShowActivity.this.aa.notifyDataSetChanged();
             }
         });
-
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            if (requestCode == this.requestCode && resultCode == -1) {
-                DBHelper dbh = new DBHelper(this);
-                this.notes.clear();
-                this.notes.addAll(dbh.getAllNotes());
-                dbh.close();
-                this.aa.notifyDataSetChanged();
-            }
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == this.requestCode && resultCode == -1) {
+            DBHelper dbh = new DBHelper(this);
+            this.notes.clear();
+            this.notes.addAll(dbh.getAllNotes());
+            dbh.close();
+            this.aa.notifyDataSetChanged();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    };
+}
+
 
 
 
