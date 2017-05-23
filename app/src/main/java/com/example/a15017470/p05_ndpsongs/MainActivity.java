@@ -1,5 +1,6 @@
 package com.example.a15017470.p05_ndpsongs;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -35,14 +36,18 @@ public class MainActivity extends AppCompatActivity {
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String title = etTitle.getText().toString();
+                String singers = etSingers.getText().toString();
+                String years = etYear.getText().toString();
             }
         });
 
         btnShowList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Intent i = new Intent(MainActivity.this,
+                        ShowActivity.class);
+
             }
         });
     }
