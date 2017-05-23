@@ -8,12 +8,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText etTitle, etSingers, etYear;
     RadioGroup rgStars;
-    RadioButton rb1, rb2, rb3, rb4, rb5;
     Button btnInsert, btnShowList;
 
     @Override
@@ -25,20 +27,33 @@ public class MainActivity extends AppCompatActivity {
         etSingers = (EditText) findViewById(R.id.etSingers);
         etYear = (EditText) findViewById(R.id.etYear);
         rgStars = (RadioGroup) findViewById(R.id.rgStars);
-        rb1 = (RadioButton) findViewById(R.id.rb1);
-        rb2 = (RadioButton) findViewById(R.id.rb2);
-        rb3 = (RadioButton) findViewById(R.id.rb3);
-        rb4 = (RadioButton) findViewById(R.id.rb4);
-        rb5 = (RadioButton) findViewById(R.id.rb5);
         btnInsert = (Button) findViewById(R.id.btnInsert);
         btnShowList = (Button) findViewById(R.id.btnShow);
+        ArrayList<String> al;
+
+
 
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String title = etTitle.getText().toString();
-                String singers = etSingers.getText().toString();
-                String years = etYear.getText().toString();
+                String singer = etSingers.getText().toString();
+                int year = Integer.parseInt(etYear.getText().toString());
+                RadioGroup rg = (RadioGroup) findViewById(R.id.rgStars);
+                int selectedButtonId = rg.getCheckedRadioButtonId();
+                RadioButton rb = (RadioButton) findViewById(selectedButtonId);
+                String strAmountStars = rb.getText() + "";
+                int amountStars = Integer.parseInt(strAmountStars);
+
+
+                DBHelper dbh = new DBHelper(MainActivity.this);
+                long row_affected = dbh.insertSong(title, singer, year, amountStars);
+                dbh.close();
+
+                if (row_affected != -1){
+                    Toast.makeText(MainActivity.this, "Insert successful",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -47,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this,
                         ShowActivity.class);
-
+                startActivity(i);
             }
         });
     }
